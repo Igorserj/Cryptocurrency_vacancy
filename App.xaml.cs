@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +29,12 @@ namespace Cryptocurrency
         /// </summary>
         public App()
         {
+            object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
+            if (value != null)
+            {
+                App.Current.RequestedTheme = (ApplicationTheme)(int)value;
+            }
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

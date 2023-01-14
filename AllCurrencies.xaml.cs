@@ -1,33 +1,38 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Cryptocurrency
 {
-    public class Currency
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class AllCurrencies : Page
     {
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public double Price { get; set; }
-    }
-
-    public sealed partial class MainPage : Page
-    {
-        public ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public List<Currency> Currencies { get; set; }
-
-        public MainPage()
+        public AllCurrencies()
         {
             this.InitializeComponent();
+
             Client();
         }
 
@@ -40,8 +45,9 @@ namespace Cryptocurrency
             var request = new RestRequest(Method.GET);
             IRestResponse response = client.Execute(request);
             var jsonObject = JObject.Parse(response.Content);
+            int length = LengthCalc(jsonObject);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < length; i++)
             {
                 string[] results = new string[3];
                 for (int j = 0; j < 3; j++) results[j] = Parsing(i, j, jsonObject)[0].ToString();
@@ -70,7 +76,6 @@ namespace Cryptocurrency
             if (currencyGrid.SelectedIndex != -1)
             {
                 Currency currency = new Currency();
-                toDetails.IsEnabled = true;
                 foreach (var obj in currencyGrid.SelectedItems)
                 {
                     currency = obj as Currency;
@@ -79,7 +84,6 @@ namespace Cryptocurrency
                     currencyImage.Source = new BitmapImage(new Uri(path));
                 }
             }
-            else toDetails.IsEnabled = false;
         }
 
         private void menuThemeClicked(object sender, RoutedEventArgs e)
@@ -90,19 +94,12 @@ namespace Cryptocurrency
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(AllCurrencies));
+            this.Frame.Navigate(typeof(MainPage));
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            Currency currency = new Currency();
-            foreach (var obj in currencyGrid.SelectedItems)
-            {
-                currency = obj as Currency;
-                localSettings.Values["Name"] = currency.Name.ToString();
-                localSettings.Values["Price"] = currency.Price.ToString();
-            }
-            this.Frame.Navigate(typeof(Details));
+            this.Frame.Navigate(typeof(AllCurrencies), args.QueryText);
         }
     }
 }

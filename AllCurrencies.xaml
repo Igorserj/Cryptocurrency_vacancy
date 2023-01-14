@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Name="Page1"
-    x:Class="Cryptocurrency.MainPage"
+    x:Class="Cryptocurrency.AllCurrencies"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Cryptocurrency"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -12,7 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -26,13 +26,14 @@
                          AccessKey="T">
                 <MenuFlyoutItem Text="Change" AccessKey="C" Click="menuThemeClicked"/>
             </MenuBarItem>
-            </MenuBar>
+        </MenuBar>
 
-        <controls:DataGrid x:Name="currencyGrid" Margin="10" Grid.Column="0" Grid.Row="1" RowHeight="15" RowDetailsVisibilityMode="Visible" IsReadOnly="True" ItemsSource="{x:Bind Path=Currencies}" VerticalGridLinesBrush="Gray" HorizontalGridLinesBrush="Gray" SelectionChanged="selectingIndex" HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"/>
+        <SearchBox Grid.Column="1" Height="35" QuerySubmitted="SearchBox_QuerySubmitted">
+        </SearchBox>
+        <controls:DataGrid x:Name="currencyGrid" Margin="10" Grid.Column="1" Grid.Row="1" RowHeight="15" RowDetailsVisibilityMode="Visible" IsReadOnly="True" ItemsSource="{x:Bind Path=Currencies}" VerticalGridLinesBrush="Gray" HorizontalGridLinesBrush="Gray" SelectionChanged="selectingIndex" HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"/>
         <Image x:Name="currencyImage" Grid.Column="2" Grid.Row="1" Margin="50,100,50,100" HorizontalAlignment="Center"/>
         <TextBlock x:Name="selectedCurrencyName"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" FontSize="16" FontWeight="Bold"/>
-        <Button Content="View all currencies" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click" Margin="10"/>
-        <Button x:Name="toDetails" Content="Details" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Click="Button_Click_1" IsEnabled="False"/>
+        <Button Content="Return" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click" Margin="10"/>
 
 
     </Grid>
