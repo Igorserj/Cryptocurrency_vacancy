@@ -54,11 +54,6 @@ namespace Cryptocurrency
                 Currencies.Add(new Currency { Name = results[0], Symbol = results[1], Price = float.Parse(results[2]) });
             }
         }
-        private int LengthCalc(dynamic jsonObject)
-        {
-            JArray items = (JArray)jsonObject["data"];
-            return items.Count;
-        }
         private dynamic Parsing(int i, int j, dynamic jsonObject)
         {
             var priceArray = j == 0 ? jsonObject.SelectTokens("data[" + i + "].name") : j == 1 ? jsonObject.SelectTokens("data[" + i + "].symbol") : jsonObject.SelectTokens("data[" + i + "].priceUsd");
@@ -70,13 +65,13 @@ namespace Cryptocurrency
                 await CoreApplication.RequestRestartAsync("");
         }
 
-
         private void selectingIndex(object sender, SelectionChangedEventArgs e)
         {
             if (currencyGrid.SelectedIndex != -1)
             {
                 Currency currency = new Currency();
                 toDetails.IsEnabled = true;
+                toCalculator.IsEnabled = true;
                 foreach (var obj in currencyGrid.SelectedItems)
                 {
                     currency = obj as Currency;
@@ -85,7 +80,11 @@ namespace Cryptocurrency
                     currencyImage.Source = new BitmapImage(new Uri(path));
                 }
             }
-            else toDetails.IsEnabled = false;
+            else
+            {
+                toDetails.IsEnabled = false;
+                toCalculator.IsEnabled = false;
+            }
         }
 
         private void menuThemeClicked(object sender, RoutedEventArgs e)
@@ -111,6 +110,14 @@ namespace Cryptocurrency
         }
         private void toCalculator_click(object sender, RoutedEventArgs e)
         {
+            Currency currency = new Currency();
+            foreach (var obj in currencyGrid.SelectedItems)
+            {
+                currency = obj as Currency;
+                localSettings.Values["Name"] = currency.Name.ToString();
+                localSettings.Values["Symbol"] = currency.Symbol.ToString();
+                localSettings.Values["Price"] = (double)currency.Price;
+            }
             this.Frame.Navigate(typeof(Calculator));
         }
     }

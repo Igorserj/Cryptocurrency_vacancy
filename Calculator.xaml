@@ -5,10 +5,39 @@
     xmlns:local="using:Cryptocurrency"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
+        <MenuBar VerticalAlignment="Top" Grid.ColumnSpan="3">
+            <MenuBarItem Title="Theme"
+                         AccessKey="T">
+                <MenuFlyoutItem Text="Change" AccessKey="C" Click="menuThemeClicked"/>
+            </MenuBarItem>
+        </MenuBar>
+
+        <controls:DataGrid x:Name="calculatorGrid" Margin="10" Grid.Column="2" Grid.Row="1" Grid.RowSpan="5" RowHeight="15" RowDetailsVisibilityMode="Visible" IsReadOnly="True" ItemsSource="{x:Bind Path=Currencies}" VerticalGridLinesBrush="Gray" HorizontalGridLinesBrush="Gray" HorizontalScrollBarVisibility="Disabled" SelectionMode="Single" SelectionChanged="selectingIndex"/>
+        <TextBlock x:Name="currencyName" HorizontalAlignment="Center" Margin="10" Grid.Row="3" TextWrapping="Wrap" Text="Currency Name" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
+        <TextBlock x:Name="PriceConversion" Grid.Column="1" HorizontalAlignment="Left" Margin="10" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18"/>
+        <TextBlock x:Name="Symbol" HorizontalAlignment="Center" Margin="10" Grid.Row="4" TextWrapping="Wrap" Text="SYMBOL" VerticalAlignment="Top" FontSize="20" FontStyle="Italic"/>
+        <Button Content="Main" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" Click="Button_Click" Margin="10" HorizontalAlignment="Center"/>
+
+        <!--<Image HorizontalAlignment="Stretch" Margin="10" Grid.Row="1" VerticalAlignment="Stretch" />-->
     </Grid>
 </Page>

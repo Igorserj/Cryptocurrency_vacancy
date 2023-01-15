@@ -82,6 +82,7 @@ namespace Cryptocurrency
             {
                 Currency currency = new Currency();
                 toDetails.IsEnabled = true;
+                toCalculator.IsEnabled = true;
                 foreach (var obj in currencyGrid.SelectedItems)
                 {
                     currency = obj as Currency;
@@ -90,7 +91,11 @@ namespace Cryptocurrency
                     currencyImage.Source = new BitmapImage(new Uri(path));
                 }
             }
-            else toDetails.IsEnabled = false;
+            else
+            {
+                toDetails.IsEnabled = false;
+                toCalculator.IsEnabled = false;
+            }
         }
 
         private void menuThemeClicked(object sender, RoutedEventArgs e)
@@ -121,6 +126,13 @@ namespace Cryptocurrency
         }
         private void toCalculator_click(object sender, RoutedEventArgs e)
         {
+            Currency currency = new Currency();
+            foreach (var obj in currencyGrid.SelectedItems)
+            {
+                currency = obj as Currency;
+                localSettings.Values["Name"] = currency.Name.ToString();
+                localSettings.Values["Symbol"] = currency.Name.ToString();
+            }
             this.Frame.Navigate(typeof(Calculator));
         }
     }

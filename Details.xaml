@@ -31,11 +31,11 @@
             </MenuBarItem>
         </MenuBar>
         <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" x:Name="currencyName" FontSize="48" FontWeight="Bold"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Price" VerticalAlignment="Center" x:Name="currencyPrice" FontSize="24"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Center" x:Name="currencyVolume" FontSize="24"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Price change" VerticalAlignment="Center" x:Name="currencyChange" FontSize="24"/>
-        <HyperlinkButton Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" Content="Website" VerticalAlignment="Center" x:Name="currencyWebsite" FontSize="24"/>
-        <controls:DataGrid Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" IsReadOnly="True" ItemsSource="{x:Bind Path=MarketsList}"></controls:DataGrid>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Price" VerticalAlignment="Center" x:Name="currencyPrice" FontSize="24" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Center" x:Name="currencyVolume" FontSize="24" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Price change" VerticalAlignment="Center" x:Name="currencyChange" FontSize="24" Margin="10,0,0,0"/>
+        <HyperlinkButton Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" Content="Website" VerticalAlignment="Center" x:Name="currencyWebsite" FontSize="24" Margin="10,0,0,0"/>
+        <controls:DataGrid Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" IsReadOnly="True" ItemsSource="{x:Bind Path=MarketsList}" Margin="10"></controls:DataGrid>
         <Button Content="Main" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" Click="Button_Click" Margin="10"/>
     </Grid>
 </Page>
