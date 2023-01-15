@@ -28,12 +28,14 @@
             </MenuBarItem>
         </MenuBar>
 
-        <SearchBox Grid.Column="1" Height="35" QuerySubmitted="SearchBox_QuerySubmitted">
+        <SearchBox x:Name="searchBox" Grid.Column="1" Height="35" QuerySubmitted="SearchBox_QuerySubmitted">
         </SearchBox>
         <controls:DataGrid x:Name="currencyGrid" Margin="10" Grid.Column="1" Grid.Row="1" RowHeight="15" RowDetailsVisibilityMode="Visible" IsReadOnly="True" ItemsSource="{x:Bind Path=Currencies}" VerticalGridLinesBrush="Gray" HorizontalGridLinesBrush="Gray" SelectionChanged="selectingIndex" HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"/>
         <Image x:Name="currencyImage" Grid.Column="2" Grid.Row="1" Margin="50,100,50,100" HorizontalAlignment="Center"/>
         <TextBlock x:Name="selectedCurrencyName"  HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" FontSize="16" FontWeight="Bold"/>
-        <Button Content="Return" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click" Margin="10"/>
+        <Button Content="Return" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Click="return_click" Margin="10"/>
+        <Button x:Name="toDetails" Content="Details" Grid.Row="2" Grid.Column="1" Margin="10" VerticalAlignment="Top" Click="toDetails_click" IsEnabled="False" HorizontalAlignment="Right"/>
+        <Button x:Name="toCalculator" Content="Calculate" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Margin="10" Click="toCalculator_click" IsEnabled="False" HorizontalAlignment="Center"/>
 
 
     </Grid>

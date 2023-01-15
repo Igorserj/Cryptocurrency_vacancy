@@ -20,6 +20,13 @@ namespace Cryptocurrency
         public double Price { get; set; }
     }
 
+    public class FullCurrency : Currency
+    {
+        public double Volume { get; set; }
+        public double Change { get; set; }
+        public string Website { get; set; }
+    }
+
     public sealed partial class MainPage : Page
     {
         public ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -30,7 +37,6 @@ namespace Cryptocurrency
             this.InitializeComponent();
             Client();
         }
-
 
         public void Client()
         {
@@ -88,21 +94,24 @@ namespace Cryptocurrency
             DoMajorAppReconfiguration();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void view_click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(AllCurrencies));
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void toDetails_click(object sender, RoutedEventArgs e)
         {
             Currency currency = new Currency();
             foreach (var obj in currencyGrid.SelectedItems)
             {
                 currency = obj as Currency;
                 localSettings.Values["Name"] = currency.Name.ToString();
-                localSettings.Values["Price"] = currency.Price.ToString();
             }
             this.Frame.Navigate(typeof(Details));
+        }
+        private void toCalculator_click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Calculator));
         }
     }
 }

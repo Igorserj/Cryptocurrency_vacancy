@@ -1,33 +1,22 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Cryptocurrency
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AllCurrencies : Page
     {
+        public ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public List<Currency> Currencies { get; set; }
         public AllCurrencies()
         {
@@ -50,8 +39,25 @@ namespace Cryptocurrency
             for (int i = 0; i < length; i++)
             {
                 string[] results = new string[3];
-                for (int j = 0; j < 3; j++) results[j] = Parsing(i, j, jsonObject)[0].ToString();
-                Currencies.Add(new Currency { Name = results[0], Symbol = results[1], Price = float.Parse(results[2]) });
+                for (int j = 0; j < 3; j++)
+                {
+                    if ((localSettings.Values["Search"] as string) != null)
+                    {
+                        string pattern = (@"\w*" + (localSettings.Values["Search"] as string) + @"\w*");
+                        if (Regex.IsMatch(Parsing(i, j, jsonObject)[0].ToString(), pattern, RegexOptions.IgnoreCase))
+                        {
+                            results[0] = Parsing(i, 0, jsonObject)[0].ToString();
+                            results[1] = Parsing(i, 1, jsonObject)[0].ToString();
+                            results[2] = Parsing(i, 2, jsonObject)[0].ToString();
+                            j = 3;
+                        }
+                    }
+                    else results[j] = Parsing(i, j, jsonObject)[0].ToString();
+                }
+                if (results[0] != null && results[1] != null && results[2] != null)
+                {
+                    Currencies.Add(new Currency { Name = results[0], Symbol = results[1], Price = float.Parse(results[2]) });
+                }
             }
         }
         private int LengthCalc(dynamic jsonObject)
@@ -70,12 +76,12 @@ namespace Cryptocurrency
                 await CoreApplication.RequestRestartAsync("");
         }
 
-
         private void selectingIndex(object sender, SelectionChangedEventArgs e)
         {
             if (currencyGrid.SelectedIndex != -1)
             {
                 Currency currency = new Currency();
+                toDetails.IsEnabled = true;
                 foreach (var obj in currencyGrid.SelectedItems)
                 {
                     currency = obj as Currency;
@@ -84,6 +90,7 @@ namespace Cryptocurrency
                     currencyImage.Source = new BitmapImage(new Uri(path));
                 }
             }
+            else toDetails.IsEnabled = false;
         }
 
         private void menuThemeClicked(object sender, RoutedEventArgs e)
@@ -92,14 +99,29 @@ namespace Cryptocurrency
             DoMajorAppReconfiguration();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void return_click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
         }
 
         private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            this.Frame.Navigate(typeof(AllCurrencies), args.QueryText);
+            localSettings.Values["Search"] = searchBox.QueryText;
+            this.Frame.Navigate(typeof(AllCurrencies));
+        }
+        private void toDetails_click(object sender, RoutedEventArgs e)
+        {
+            Currency currency = new Currency();
+            foreach (var obj in currencyGrid.SelectedItems)
+            {
+                currency = obj as Currency;
+                localSettings.Values["Name"] = currency.Name.ToString();
+            }
+            this.Frame.Navigate(typeof(Details));
+        }
+        private void toCalculator_click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Calculator));
         }
     }
 }

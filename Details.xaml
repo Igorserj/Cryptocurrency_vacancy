@@ -5,22 +5,23 @@
     xmlns:local="using:Cryptocurrency"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <MenuBar VerticalAlignment="Top" Grid.ColumnSpan="3">
@@ -29,10 +30,12 @@
                 <MenuFlyoutItem Text="Change" AccessKey="C" Click="menuThemeClicked"/>
             </MenuBarItem>
         </MenuBar>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" x:Name="currencyName"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Price" VerticalAlignment="Center" x:Name="currencyPrice"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Center" x:Name="currencyVolume"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Price change" VerticalAlignment="Center" x:Name="currencyChange"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Website" VerticalAlignment="Center" x:Name="currencyWebsite"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" x:Name="currencyName" FontSize="48" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Price" VerticalAlignment="Center" x:Name="currencyPrice" FontSize="24"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Center" x:Name="currencyVolume" FontSize="24"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Price change" VerticalAlignment="Center" x:Name="currencyChange" FontSize="24"/>
+        <HyperlinkButton Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" Content="Website" VerticalAlignment="Center" x:Name="currencyWebsite" FontSize="24"/>
+        <controls:DataGrid Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" IsReadOnly="True" ItemsSource="{x:Bind Path=MarketsList}"></controls:DataGrid>
+        <Button Content="Main" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" Click="Button_Click" Margin="10"/>
     </Grid>
 </Page>
